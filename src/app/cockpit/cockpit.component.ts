@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild, ElementRef } from '@angular/core';
 
 @Component({
   selector: 'app-cockpit',
@@ -13,25 +13,40 @@ export class CockpitComponent implements OnInit {
     serverName: string,
     serverContent: string,
   }>();
-  newServerName: string;
-  newServerContent: string;
+  // newServerName: string;
+  // newServerContent: string;
+  @ViewChild('serverNameInput') serverNameInput: ElementRef;
+  @ViewChild('serverContentInput') serverContentInput: ElementRef;
 
   constructor() { }
 
   ngOnInit() {
   }
 
-  onAddServer(serverType) {
-    if (this.newServerName && this.newServerContent) {
-      console.log(serverType);
+  isEmpty(string) {
+    let empty = false;
+    if (!string || string.match(/^\s+$/)) {
+      empty = true;
+    }
+    return empty;
+  }
 
+  onAddServer(type: string, serverNameInput: HTMLInputElement, serverContentInput: HTMLInputElement) {
+    const name = this.serverNameInput.nativeElement.value;
+    const content = this.serverContentInput.nativeElement.value;
+
+    console.log('name: ' + this.isEmpty(name));
+    console.log('content: ' + this.isEmpty(content));
+
+    if (!this.isEmpty(name) && !this.isEmpty(content)) {
       this.serverCreated.emit({
-        serverType: serverType,
-        serverName: this.newServerName,
-        serverContent: this.newServerContent
+        serverType: type,
+        serverName: name,
+        serverContent: content
       });
-      this.newServerName = '';
-      this.newServerContent = '';
+
+      this.serverNameInput.nativeElement.value = '';
+      this.serverContentInput.nativeElement.value = '';
     }
   }
 
