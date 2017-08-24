@@ -24,4 +24,10 @@ export class AppComponent implements OnInit {
       content: serverData.serverContent
     });
   }
+
+  onDestroy() {
+    console.log('onDestroy called!');
+    this.serverElements.splice(0, 1);
+  }
+
 }

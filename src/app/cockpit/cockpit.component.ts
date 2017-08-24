@@ -35,8 +35,8 @@ export class CockpitComponent implements OnInit {
     const name = this.serverNameInput.nativeElement.value;
     const content = this.serverContentInput.nativeElement.value;
 
-    console.log('name: ' + this.isEmpty(name));
-    console.log('content: ' + this.isEmpty(content));
+    console.log('name: ' + !this.isEmpty(name));
+    console.log('content: ' + !this.isEmpty(content));
 
     if (!this.isEmpty(name) && !this.isEmpty(content)) {
       this.serverCreated.emit({
